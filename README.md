@@ -71,6 +71,139 @@ The **Answer Evaluation System** uses a variety of NLP techniques to evaluate st
     python admin.py
     ```
 
+# 🧠 Teacher Part Application - Hybrid NLP Evaluation System
+
+This project is a **Hybrid NLP Framework** designed for automated evaluation of subjective answers.  
+It uses a combination of **lexical** and **semantic similarity techniques** to compare a student’s answer with the expected answer.
+
+---
+
+## ⚙️ Step 1: Download and Install XAMPP
+
+1. Go to the official XAMPP website:  
+   👉 [https://www.apachefriends.org/index.html](https://www.apachefriends.org/index.html)
+2. Download and install XAMPP for your operating system.
+3. After installation, open the **XAMPP Control Panel**.
+
+---
+
+## 🚀 Step 2: Start Services
+
+1. In the **XAMPP Control Panel**, find **Apache** and click **Start** (it should turn green).  
+2. Then, find **MySQL** and click **Start** (it should also turn green).
+
+---
+
+## 🌐 Step 3: Open phpMyAdmin
+
+1. Open your web browser.  
+2. Type the following URL in the address bar and press Enter:  
+http://localhost/phpmyadmin
+
+sql
+Copy code
+
+---
+
+## 🗃️ Step 4: Create the Database
+
+1. In phpMyAdmin, look for the **"Create database"** section.  
+2. Type `teacher_part` as the database name.  
+3. Click **Create**.
+
+---
+
+## 🧩 Step 5: Create the Tables
+
+1. After creating the database, click on **teacher_part** from the left sidebar.  
+2. Go to the **SQL** tab.  
+3. Copy and paste the following SQL code:
+
+```sql
+-- Create the Admins table
+CREATE TABLE Admins (
+    admin_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+-- Create the Teachers table
+CREATE TABLE Teachers (
+    teacher_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+-- Create the Students table
+CREATE TABLE Students (
+    student_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+-- Create the Tests table
+CREATE TABLE Tests (
+    test_id INT AUTO_INCREMENT PRIMARY KEY,
+    test_name VARCHAR(255) NOT NULL,
+    teacher_id INT,
+    FOREIGN KEY (teacher_id) REFERENCES Teachers(teacher_id) ON DELETE CASCADE
+);
+
+-- Create the Questions table
+CREATE TABLE Questions (
+    question_id INT AUTO_INCREMENT PRIMARY KEY,
+    question_text TEXT NOT NULL,
+    test_id INT,
+    FOREIGN KEY (test_id) REFERENCES Tests(test_id) ON DELETE CASCADE
+);
+
+-- Create the ExpectedAnswers table
+CREATE TABLE ExpectedAnswers (
+    answer_id INT AUTO_INCREMENT PRIMARY KEY,
+    answer_text TEXT NOT NULL,
+    question_id INT,
+    FOREIGN KEY (question_id) REFERENCES Questions(question_id) ON DELETE CASCADE
+);
+
+-- Create the StudentAnswers table
+CREATE TABLE StudentAnswers (
+    answer_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    test_id INT,
+    question_id INT,
+    answer_text TEXT,
+    score INT DEFAULT 0,
+    FOREIGN KEY (student_id) REFERENCES Students(student_id) ON DELETE CASCADE,
+    FOREIGN KEY (test_id) REFERENCES Tests(test_id) ON DELETE CASCADE,
+    FOREIGN KEY (question_id) REFERENCES Questions(question_id) ON DELETE CASCADE
+);
+
+-- Create the teacher-student relationship table
+CREATE TABLE teacherstudentrelationship (
+    relationship_id INT AUTO_INCREMENT PRIMARY KEY,
+    teacher_id INT,
+    student_id INT,
+    FOREIGN KEY (teacher_id) REFERENCES Teachers(teacher_id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES Students(student_id) ON DELETE CASCADE
+);
+Click the Go button (bottom-right corner).
+✅ This will create all required tables.
+
+👨‍💼 Step 6: Manually Add Admin User
+Make sure the teacher_part database is selected.
+
+Click the SQL tab again.
+
+Paste the following SQL command:
+
+sql
+Copy code
+INSERT INTO Admins (username, password) VALUES ('admin', 'admin101');
+Click Go.
+✅ You have successfully added the default admin user.
+
+
+
 ## Usage 📚
 
 1. Open your web browser and navigate to `http://127.0.0.1:5000`.

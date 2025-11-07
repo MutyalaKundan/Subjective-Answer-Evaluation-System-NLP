@@ -186,6 +186,7 @@ CREATE TABLE teacherstudentrelationship (
     FOREIGN KEY (teacher_id) REFERENCES Teachers(teacher_id) ON DELETE CASCADE,
     FOREIGN KEY (student_id) REFERENCES Students(student_id) ON DELETE CASCADE
 );
+```
 Click the Go button (bottom-right corner).
 ✅ This will create all required tables.
 
@@ -196,9 +197,10 @@ Click the SQL tab again.
 
 Paste the following SQL command:
 
-sql
 Copy code
+```sql
 INSERT INTO Admins (username, password) VALUES ('admin', 'admin101');
+```
 Click Go.
 ✅ You have successfully added the default admin user.
 
